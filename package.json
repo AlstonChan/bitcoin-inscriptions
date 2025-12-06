@@ -1,0 +1,43 @@
+{
+  "name": "bitcoin-inscriptions",
+  "private": true,
+  "version": "1.0.0",
+  "description": "script to inscribe image into a bitcoin sats with ord inscription protocol",
+  "homepage": "https://github.com/AlstonChan/bitcoin-inscriptions#readme",
+  "bugs": {
+    "url": "https://github.com/AlstonChan/bitcoin-inscriptions/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlstonChan/bitcoin-inscriptions.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Chan Alston",
+    "email": "me@chanalston.com",
+    "url": "https://www.chanalston.com"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "start:minimal": "node dist/minimal.js"
+  },
+  "engines": {
+    "node": "24.11.1"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.0.2",
+    "@scure/bip39": "^2.0.1",
+    "bip32": "^5.0.0",
+    "bip39": "^3.1.0",
+    "bitcoinjs-lib": "^7.0.0",
+    "tiny-secp256k1": "^2.2.4"
+  },
+  "devDependencies": {
+    "@inquirer/type": "^4.0.2",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  }
+}
