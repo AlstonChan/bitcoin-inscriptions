@@ -1,5 +1,5 @@
 import * as bitcoin from "bitcoinjs-lib";
-import { breakContentIntoChunks } from "./misc.js";
+import { breakContentIntoChunks, reverseBytes } from "./misc.js";
 import { witnessStackToScriptWitness } from "./witnessStackToScriptWitness.js";
 
 import type { BIP32Interface } from "bip32";
@@ -130,14 +130,19 @@ function generateTapscriptChunks(
     Buffer.from(contentType, "utf8"),
   ];
 
+  // Need to use zlib to compress content before inscription
   // Add brotli compression encoding if needed
-  //   if (brotliCompress) {
-  //     tapscriptChunks.push(1); // OP_PUSH 1 byte
-  //     tapscriptChunks.push(9); // Encoding tag
-  //     tapscriptChunks.push(Buffer.from("br", "utf8"));
-  //   }
+  if (brotliCompress) {
+    tapscriptChunks.push(1); // OP_PUSH 1 byte
+    tapscriptChunks.push(9); // Encoding tag
+    tapscriptChunks.push(Buffer.from("br", "utf8"));
+  }
 
-  // Add parent ID if provided
+  // This part requires more effort to work like
+  // 1. reverse the hex to make it little-endian
+  // 2. To include the parent inscription UTXO as the first vin and output exactly to the first vout
+  // or map correctly with pointers
+  //   // Add parent ID if provided
   //   if (parentID) {
   //     tapscriptChunks.push(1); // OP_PUSH 1 byte
   //     tapscriptChunks.push(3); // Parent tag
@@ -145,11 +150,11 @@ function generateTapscriptChunks(
   //   }
 
   // Add metadata if provided
-  //   if (metadata) {
-  //     tapscriptChunks.push(1); // OP_PUSH 1 byte
-  //     tapscriptChunks.push(5); // Metadata tag
-  //     tapscriptChunks.push(Buffer.from(metadata, "hex"));
-  //   }
+  if (metadata) {
+    tapscriptChunks.push(1); // OP_PUSH 1 byte
+    tapscriptChunks.push(5); // Metadata tag
+    tapscriptChunks.push(Buffer.from(metadata, "hex"));
+  }
 
   // Add content body tag
   tapscriptChunks.push(bitcoin.opcodes.OP_0);
