@@ -32,7 +32,7 @@
     "@scure/bip39": "^2.0.1",
     "bip32": "^5.0.1",
     "bip39": "^3.1.0",
-    "bitcoinjs-lib": "^7.0.1",
+    "bitcoinjs-lib": "^7.0.2",
     "tiny-secp256k1": "^2.2.4"
   },
   "devDependencies": {
